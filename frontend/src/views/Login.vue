@@ -16,7 +16,7 @@
 const login = () => {
   const domain = import.meta.env.VITE_COGNITO_DOMAIN
   const clientId = import.meta.env.VITE_CLIENT_ID
-  const redirect = 'http://localhost:5173/callback'
+  const redirect = import.meta.env.VITE_REDIRECT_URI
   // prompt=login forces Cognito to show login form every time
   const url = `${domain}/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirect)}&scope=openid+email+phone&prompt=login`
   window.location.href = url

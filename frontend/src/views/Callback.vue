@@ -30,7 +30,7 @@ onMounted(async () => {
 
   const domain = import.meta.env.VITE_COGNITO_DOMAIN
   const clientId = import.meta.env.VITE_CLIENT_ID
-  const redirect = 'http://localhost:5173/callback'
+  const redirect = import.meta.env.VITE_REDIRECT_URI
 
   try {
     console.log('Exchanging code for token...')

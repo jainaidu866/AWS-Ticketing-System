@@ -27,7 +27,7 @@ export const auth = reactive({
     this.groups = []
     const domain = import.meta.env.VITE_COGNITO_DOMAIN
     const clientId = import.meta.env.VITE_CLIENT_ID
-    const logoutUri = encodeURIComponent('http://localhost:5173/login')
+    const logoutUri = encodeURIComponent(import.meta.env.VITE_REDIRECT_URI.replace('/callback', '/login'))
     window.location.href = `${domain}/logout?client_id=${clientId}&logout_uri=${logoutUri}`
   }
 })
