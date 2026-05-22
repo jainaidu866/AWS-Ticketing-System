@@ -59,9 +59,15 @@
             <option>Resolved</option>
             <option>Closed</option>
           </select>
-          <input v-model="updateForm.assignee"
-            placeholder="Assignee email"
-            class="border rounded-lg px-3 py-2 flex-1" />
+
+          <select v-model="updateForm.assignee"
+            class="border rounded-lg px-3 py-2 bg-white flex-1">
+            <option value="">-- Select Agent --</option>
+            <option v-for="agent in agents" :key="agent.email" :value="agent.email">
+              {{ agent.email }}
+            </option>
+          </select>
+
           <button @click="updateTicket"
             class="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 font-medium">
             Save
@@ -122,6 +128,7 @@ const ticket = ref(null)
 const comments = ref([])
 const newComment = ref('')
 const updateMsg = ref('')
+const agents = ref([])
 const updateForm = ref({ status: 'Open', assignee: '' })
 
 const loadTicket = async () => {
@@ -139,6 +146,15 @@ const loadComments = async () => {
   try {
     const res = await api.get(`/tickets/${route.params.id}/comments`)
     comments.value = res.data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+const loadAgents = async () => {
+  try {
+    const res = await api.get('/agents')
+    agents.value = res.data
   } catch (err) {
     console.error(err)
   }
@@ -184,5 +200,6 @@ const formatDate = (d) => new Date(d).toLocaleDateString()
 onMounted(() => {
   loadTicket()
   loadComments()
+  if (auth.isAgent()) loadAgents()
 })
 </script>
